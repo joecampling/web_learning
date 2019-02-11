@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<meta charset = "utf-8">
+
+<script>
+'use strict';
+console.log('hello');
+
+function divide(a, b) {
+  if (b > a) {
+    [a, b] = [b, a];
+  }
+  if (a % b == 0) {
+    this.result = a / b;
+    this.history = `${a} / ${b} = ${this.result}`;
+  } else {
+    this.result =  [a, b];
+    this.history = `${b} doesn't go into ${a}`;
+  }
+}
+
+function add(a, b) {
+  this.result = a + b;
+  this.history = `${a} + ${b} = ${this.result}`;
+}
+
+function new_list(numbers, operation, index1, index2) {
+  numbers.splice(index1, 1);
+  numbers.splice(index2 - 1, 1);
+  return numbers.concat(operation.result);
+}
+
+var numbers = [1, 2, 3, 4, 5, 6];
+var index1 = 2;
+var index2 = 4;
+var something = new_list(numbers, new add(numbers[index1], numbers[index2]), index1, index2);
+console.log(something);
+
+var addh = new add(9,6);
+console.log(addh.history);
+var out = new divide(2, 6);
+console.log(out.history);
+
+var obj_list = [];
+
+for (var i = 0; i < numbers.length; i++) {
+  for (var j = i + 1; j < numbers.length; j++) {
+    console.log(new divide(numbers[i], numbers[j]).history);
+  }
+}
+
+function chain(numbers, operation, chain = []) {
+  this.chain = chain;
+  for (var i = 0; i < numbers.length; i++) {
+    for (var j = i + 1; j < numbers.length; j++) {
+      this.chain.push(new operation(numbers[i], numbers[j]))
+      
+    }
+  }
+}
+
+var numbers2 = [1,2,3,4,5,6];
+var test = new chain(numbers2, divide);
+console.log(test.chain);
+
+
+
+</script>

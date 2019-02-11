@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<meta charset = "utf-8">
+
+<script>
+'use strict';
+
+function divide(a, b) {
+  if ((a === 1 || b === 1) || (a === b)) {
+    this.result = false;
+    this.history = 'no point in doing this';
+  } else {
+    if (b > a) { [a, b] = [b, a]; }
+    if (a % b == 0) {
+      this.result = a / b;
+      this.history = `${a} / ${b} = ${this.result}`;
+    } else {
+      this.result =  false;
+      this.history = `${b} doesn't go into ${a}`;
+    }
+  }
+}
+
+function minus(a, b) {
+  if (a === b) {
+    this.result = false;
+    this.history = 'zero';
+  } else {
+    if (b > a) { [a, b] = [b, a]; }
+    this.result = a - b;
+    this.history = `${a} - ${b} = ${this.result}; `;
+  }
+}
+
+function multiply(a, b) {
+  if (a === 1 || b === 1) {
+    this.result = false;
+    this.history = 'no point in multiplying by 1; '
+  } else {
+  this.result = a * b;
+  this.history = `${a} * ${b} = ${this.result}; `;
+  }
+}
+
+function add(a, b) {
+  this.result = a + b;
+  this.history = `${a} + ${b} = ${this.result}; `;
+}
+
+function list_object(numbers, history = '') {
+  this.history = history;
+  this.numbers = numbers;
+}
+
+function new_list(listo, operation, index1, index2) {
+  let getres = new operation(listo.numbers[index1], listo.numbers[index2]);
+  if (getres.result) {
+    let numbers = listo.numbers.concat(getres.result);
+    numbers.splice(index1, 1);
+    numbers.splice(index2 - 1, 1);
+    numbers.sort()
+    return new list_object(numbers, listo.history + getres.history);
+  } else { return false; }
+}
+
+var solutions = [];
+var queue = [];
+var operations = [add, divide, minus, multiply];
+
+function mainloop(listor, target) {
+  for (const oper of operations) {
+    for (let i = 0; i < listor.numbers.length; i++) {
+      for (let j = i + 1; j < listor.numbers.length; j++) {
+        let temp_lob = new_list(listor, oper, i, j);
+        if (temp_lob != false) {
+          if (temp_lob.numbers.includes(target)) {
+            solutions.push(temp_lob.history);
+          } else { queue.push(temp_lob); }
+        }
+      }
+    }
+  }
+}
+
+var num2 = [1,25,9,50,5,8];
+var target = 345;
+num2.sort();
+var test2 = new list_object(num2);
+queue.push(test2);
+for (const listobj of queue) {
+  mainloop(listobj, target)
+  //queue.splice(0, 1);
+}
+
+
+//mainloop(test2, 9);
+const unique_solutions = [...new Set(solutions)]
+console.log('first 20 solutions:');
+for (let i = 0; i < 20; i++) {
+  console.log(unique_solutions[i]);
+}
+</script>

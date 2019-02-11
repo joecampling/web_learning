@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<meta charset="utf-8">
+<title>Font size slider demo</title>
+<h1 id = 'h1'>This text will show h1 font-sizes</h1>
+<p id = 'var_font'>This text will show p font-sizes</p>
+<input type="range" min="0" max="6" value="3" id="myRange">
+<p>Slider value: <span id="display"></span>
+
+<script>
+var slider = document.getElementById('myRange');
+var output = document.getElementById('display');
+output.innerHTML = slider.value;
+function font_num2str(num) {
+  var font_text = ['xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'];
+  return font_text[num];
+}
+slider.oninput = function() {
+  output.innerHTML = this.value;
+  document.getElementById('var_font').innerHTML=font_num2str(this.value);
+  document.getElementById('var_font').style.fontSize = font_num2str(this.value);
+}
+</script>

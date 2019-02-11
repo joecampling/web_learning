@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<script>
+
+var dragons = [
+  'cool dragon',
+  'angry dragon',
+  'nasty dragon'
+];
+
+const iterator = dragons[Symbol.iterator]();
+var done = false;
+var iter;
+while (!done){
+  iter = iterator.next();
+  console.log(iter.value);
+  done = iter.done;
+}
+let i = 0;
+for (const dragon of dragons){
+  console.log(dragon);
+  i++;
+  if (i == 2) {
+    dragons.push('fourth dragon');
+  }
+}
+
+</script>
+</html>
